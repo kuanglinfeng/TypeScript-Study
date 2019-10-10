@@ -1252,6 +1252,123 @@ export function printObj(obj: any) {
 }
 ```
 
+## reflect-metadata库
+
+该库的作用：保存元数据
+
+将附加的信息放在类的原型上可能会产生污染，因此可以导入这个库来保存元数据
+
+## class-validator 和 class-transformer库
+
+## 补充
+
+- 参数装饰器
+
+依赖注入、依赖倒置
+
+要求函数有3个参数：
+
+1. 如果方法是静态的，则为类本身；如果方法是实例方法，则为类的原型
+
+2. 方法名称
+
+3. 在参数列表中的索引
+
+```ts
+class MyMath {
+	sum(a: number, @test b: number) {
+		return a + b
+	}
+}
+
+function test(target: any, methodName: string, index: number) {
+	// MyMath {} 'sum' 1
+	console.log(target, methodName, index)
+}
+```
+
+- 关于TS自动注入的元数据
+
+如果安装了```reflect-metadata```，并且导入了该库，并且在某个成员上添加了元数据，再并且你启用了配置
+
+```"emitDecoratorMetadata": true```，则TS会在编译结果中，会将约束的类型，作为元数据加入到相应位置
+
+这样一来，TS的类型检查（约束）将有机会在运行时进行
+
+- AOP
+
+编程方式，属于面向对象开发。
+
+将一些在业务中共同出现的功能块，横向切分，已达到分离关注点的目的
+
+# 类型演算（自己取的标题）
+
+> 定义：根据已知的信息，计算出一个新的类型
+
+## 三个关键字
+
+- typeof
+
+TS中的typeof，书写的位置在类型约束的位置上，表示获取某个数据的类型
+
+```ts
+const a: string = 'aaa'
+
+let b: typeof a = 'flinn'
+```
+
+当typeof作用于类的时候，得到的类型，是该类的构造函数
+
+```ts
+class User {
+	loginId: string
+	loginPwd: string
+}
+
+// 注意：如果cls后直接限定为User表示的是User的一个实例对象而不是构造函数
+// 因此这里可以用到typeof，此外，用 new () => User 也可以限定为一个构造函数
+function createUser(cls: typeof User): User {
+	return new cls()
+}
+```
+
+- keyof
+
+作用于类、接口、类型别名，用于获取其它类型中所有的成员名组成的联合类型
+
+```ts
+interface User {
+	loginId: string
+	loginPwd: string
+}
+
+function printUserProp(obj: User, prop: keyof User) {
+	console.log(obj[prop])
+}
+```
+
+- in
+
+该关键字往往和keyof连用，限制某个索引类型的取值范围
+
+```ts
+interface User {
+	loginId: string
+	loginPwd: string
+}
+
+// 将User的所有属性值类型变成字符串,得到一个新的联合类型
+type Obj = {
+	// [p in 'loginId' | 'loginPwd']: string
+	[p in keyof User]: string
+}
+
+const u:Obj = {
+	loginId: 'flinn',
+	loginPwd: '123'
+}
+```
+
 
  
 

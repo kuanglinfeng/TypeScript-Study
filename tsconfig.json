@@ -12,8 +12,9 @@
     "esModuleInterop": true, // 启用es模块化交互非es模块导出
     // "strictPropertyInitialization": true, // 更加严格的检查属性有没有初始化
     "noImplicitAny": true,
-    "experimentalDecorators": true // 实验模式的装饰器
+    "experimentalDecorators": true, // 实验模式的装饰器
+    "emitDecoratorMetadata": true
   },
-  "include": ["./src"], // 编译的目录
+  "include": ["./src"]// 编译的目录
   // "files": ["./src/index.ts"] // 编译指定文件
 }
