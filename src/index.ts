@@ -79,20 +79,45 @@
 
 
 
-interface User {
-	loginId: string
-	loginPwd: string
+// interface User {
+// 	loginId: string
+// 	loginPwd: string
+// }
+
+// type Obj = {
+// 	// [p in 'loginId' | 'loginPwd']: string
+// 	[p in keyof User]: string
+// }
+
+// const u:Obj = {
+// 	loginId: 'flinn',
+// 	loginPwd: '123'
+// }
+
+// u 的类型变为 'a' | 'b' 相当于取交集
+// let u: Extract<'a' | 'b' | 'c', 'a' | 'b'>
+
+
+
+const A:twoParamsConstructor = class Test {
+	constructor(a: any, b: any) {
+
+	}
 }
 
-type Obj = {
-	// [p in 'loginId' | 'loginPwd']: string
-	[p in keyof User]: string
+type twoParamsConstructor = new (arg1: any, arg2: any) => User
+
+class User {
+
 }
 
-const u:Obj = {
-	loginId: 'flinn',
-	loginPwd: '123'
-}
+// Inst的类型变为 User (实例)
+type Inst = InstanceType<twoParamsConstructor>
+
+
+
+
+
 
 
 

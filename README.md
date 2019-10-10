@@ -1369,6 +1369,84 @@ const u:Obj = {
 }
 ```
 
+## TS中预设的类型演算
+
+// 将类型T中的成员变为可选
+Partial<T>
+
+```ts
+interface User {
+	age: number
+	name: string
+}
+
+let u: Partial<User>
+```
+
+// 将类型T的成员变为必填
+Required<T>
+
+```ts
+interface User {
+	age: number
+	name: string
+}
+
+let u: Required<User>
+```
+
+// 将类型T的成员变为只读
+Readonly<T>
+
+// 从T中剔除可以赋值給u的类型
+Exclude<T>
+
+```ts
+// u 的类型变为 'c'
+let u: Exclude<'a' | 'b' | 'c', 'a' | 'b'>
+```
+
+// 提取T中可以赋值給u的类型
+Extract<T>
+```ts
+// u 的类型变为 'a' | 'b' 相当于取交集
+let u: Extract<'a' | 'b' | 'c', 'a' | 'b'>
+```
+
+// 从T中剔除null和undefined
+NonNullable<T>
+
+```ts
+type str = string | null | undefined
+
+// strNonNull 的类型变为 'string'
+type strNonNull = NonNullable<str>
+```
+
+// 获取函数返回值类型
+ReturnType<T>
+
+```ts
+type func = () => number
+
+// returnType的类型变为 number
+type returnType = ReturnType<func>
+```
+
+// 获取构造函数类型的实例类型
+InstanceType<T>
+
+```ts
+type twoParamsConstructor = new (arg1: any, arg2: any) => User
+
+class User {
+
+}
+
+// Inst的类型变为 User (实例)
+type Inst = InstanceType<twoParamsConstructor>
+```
+
 
  
 
