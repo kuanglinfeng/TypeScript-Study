@@ -1447,6 +1447,118 @@ class User {
 type Inst = InstanceType<twoParamsConstructor>
 ```
 
+# 声明文件
+
+> 概述、编写、发布
+
+## 概述
+
+1. 什么是声明文件
+
+以`.d.ts`结尾的文件
+
+2. 声明文件有什么作用？
+
+为JS代码提供类型声明
+
+3. 声明文件书写的位置
+
+- 放置到tsconfig.json配置中包含的目录中
+
+- 放置到node_modules/@types文件夹中
+
+- 在tsconfig.json中使用配置项```"typeRoots": []```来配置（写了这个前面两个规则将失效）
+
+- 与JS代码所在目录相同，并且文件名也相同的文件。用ts代码书写的工程发布之后的格式。
+
+## 编写
+
+- 自动生成
+
+工程是使用TS开发的，发布（编译）之后，是js文件，发布的是js文件
+
+如果发布的文件，需要其它开发者使用，可以使用声明文件来描述发布结果中的类型
+
+配置```tsconfig.josn```中的```"declaration": true```即可
+
+- 手动编写
+
+1. 对已有的库，它使用js书写的，并且更改该库为ts的成本较高，可以手动编写声明文件
+
+2. 对一些第三方的库，它们使用js书写而成，并且这些库没有提供声明文件，可以手动编写声明文件
+
+**全局声明**
+
+声明一些全局的对象、属性、变量
+
+```ts
+interface Console {
+  log(message?: any): void
+  error(message?: any): void
+
+}
+
+declare var console: Console
+```
+
+> namespace: 命名空间 可将其当成一个对象 命名空间中的内容，必须通过`命名空间.成员名`来访问
+
+```ts
+declare namespace console {
+  function log(message?: any): void
+  function error(message?: any): void
+}
+```
+
+**模块声明**
+
+```ts
+// 声明模块
+declare module "lodash" {
+  export function chunk<T>(array: T[], size: number): T[][]
+}
+```
+
+**三斜线指令**
+
+在一个声明文件中，包含另一个声明文件
+
+```ts
+/// <reference path="路径" />
+```
+
+## 发布
+
+1. 当前工程使用TS开发
+
+编译完成后，将编译结果所在文件夹直接发布到npm上即可
+
+2. 为其它第三方库开发的声明文件
+
+发布到@types/***中
+
+1) 进入到github开源项目：https://github.com/DefinitelyTyped/DefinitelyTyped
+
+2) fork到自己的开源库中
+
+3) 从自己的开源库中克隆到本地
+
+4) 本地新建分支（例如：mylodash4.3），在新分支进行声明文件的开发
+
+5) 在type目录中新建文件夹，在新的文件夹中进行开发声明文件
+
+6) push分支到你的开源库
+
+7) 到官方的开源库中，提交pull request
+
+8) 等待官方管理员审核（1天左右）
+
+9) 审核通过后，会将你的代码合并到主分支
+
+10) 然后发布到npm，之后就可以通过命令```npm install @types/你发布的库名```
+
+
+
 
  
 

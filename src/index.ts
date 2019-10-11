@@ -118,6 +118,21 @@ type Inst = InstanceType<twoParamsConstructor>
 
 
 
+// console.log('a')
+
+
+// console.log()
+
+// console.error()
+
+
+
+import _ from 'lodash'
+
+const newArr = _.chunk([1, 2, 3, 4], 2)
+
+console.log(newArr)
+
 
 
 
